@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donate</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <style>
+        body {
+            background-color: white;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: purple;
+        }
+
+        label {
+            font-size: 20px;
+            color: purple;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 5px;
+            font-size: 18px;
+            width: 100%;
+            background-color: white;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: purple;
+            color: gold;
+            cursor: pointer;
+            border: none;
+            border-radius: 3px;
+        }
+
+        #donationDetails {
+            margin-top: 20px;
+            font-size: 20px;
+            color: purple;
+        }
+
+        #donationArray {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+            color: purple;
+            border: 1px solid purple;
+            padding: 10px;
+            width: 100%;
+            background-color: white;
+        }
+
+        /* Added CSS for the form box */
+        #donateForm {
+            border: 1px solid purple;
+            padding: 20px;
+            display: inline-block;
+            text-align: left;
+            background-color: gold;
+            width: 100%;
+            max-width: 500px;
+        }
+        header {
+      background-color: gold;
+      padding: 10px;
+    }
+
+    nav {
+      font-size: 24px;
+      letter-spacing: 0.5px;
+      font-weight: 400;
+      line-height: 24px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo img {
+      height: 120px;
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    nav ul li a {
+      color: purple;
+      text-decoration: none;
+      padding: 5px;
+    }
+
+    nav ul li a:hover {
+      background-color: purple;
+      color: gold;
+    }
+
+   
+
+    nav ul li a.About{
+      text-decoration: underline; 
+    }
+      footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    footer p {
+      margin: 0;
+    }
+    </style>
+</head>
+<body>
+   <header>
+    <nav>
+      <div class="logo">
+        <img src="https://drive.google.com/uc?id=1lZ9zDXgvocO5bigb_PLecezEUnMGMXnL" alt="Logo">
+      </div>
+      <ul>
+        <li><a href="/home/sagarjha/charitty/Home.html" class="home">Home</a></li>
+        <li><a href="/home/sagarjha/charitty/Aboutus.html">About</a></li>
+        <li><a href="/home/sagarjha/charitty/fundraiser.html" class="raise-fund">Raise Fund</a></li>
+        <li><a href="https://www.unicef.org/india/">United Nation</a></li>
+        <li><a href="/home/sagarjha/charitty/Contactus.html" class="contact">Contact</a></li>
+       
+      </ul>
+    </nav>
+  </header>
+    <h1>Donate</h1>
+    <form id="donateForm">
+        <label for="name">Your Name:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="message">Message:</label><br>
+        <input type="text" id="message" name="message"><br><br>
+        <label for="amount">Donation Amount (ETH):</label><br>
+        <input type="number" id="amount" name="amount" step="0.01"><br><br>
+        <input type="submit" value="Donate">
+    </form>
+
+    <div id="donationDetails"></div>
+
+    <h2>Donation History</h2>
+    <div id="donationArray"></div><br>
+<footer>
+    <p>&copy; 2023 VidyaDanam All rights reserved.</p>
+  </footer>
+    <script>
+        const contractAddress = '0x70b1d7658A4EB85128C0fE3F3Cf60722FcfFD6D3'; // Replace with your deployed contract address
+        const contractABI = [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "donor",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			}
+		],
+		"name": "DonationMade",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			}
+		],
+		"name": "makeDonation",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "donations",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getDonations",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "message",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					}
+				],
+				"internalType": "struct Donation.DonationInfo[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+        let web3;
+        let contractInstance;
+
+        async function connectMetamask() {
+            if (typeof window.ethereum !== 'undefined') {
+                await window.ethereum.enable();
+                web3 = new Web3(window.ethereum);
+            } else {
+                alert('Please install MetaMask to use this application.');
+            }
+        }
+
+        async function connectContract() {
+            contractInstance = new web3.eth.Contract(contractABI, contractAddress);
+        }
+
+        async function makeDonation(name, message, amount) {
+            const accounts = await web3.eth.getAccounts();
+            const sender = accounts[0];
+
+            const donationWei = web3.utils.toWei(amount.toString(), 'ether');
+
+            try {
+                const transaction = await contractInstance.methods.makeDonation(name, message)
+                    .send({ from: sender, value: donationWei });
+
+                console.log(transaction);
+                displayDonationDetails(transaction.transactionHash, name, message, amount);
+                updateDonationHistory(name, message, amount);
+                alert('Donation successful!');
+            } catch (error) {
+                console.error(error);
+                alert('Donation failed!');
+            }
+        }
+
+        function displayDonationDetails(transactionHash, name, message, amount) {
+            const detailsElement = document.getElementById('donationDetails');
+            const detailsHTML = `
+                <h2>Donation Details</h2>
+                <p><strong>Transaction Hash:</strong> ${transactionHash}</p>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Message:</strong> ${message}</p>
+                <p><strong>Amount (ETH):</strong> ${amount}</p>
+            `;
+            detailsElement.innerHTML = detailsHTML;
+        }
+
+        function updateDonationHistory(name, message, amount) {
+            const donationArray = document.getElementById('donationArray');
+            const listItem = document.createElement('li');
+            listItem.textContent = `${name} - ${message} - ${amount} ETH`;
+            donationArray.appendChild(listItem);
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await connectMetamask();
+            await connectContract();
+
+            const form = document.getElementById('donateForm');
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const message = document.getElementById('message').value;
+                const amount = document.getElementById('amount').value;
+
+                await makeDonation(name, message, amount);
+
+                // Clear the form after submission
+                form.reset();
+            });
+        });
+    </script>
+</body>
+</html>

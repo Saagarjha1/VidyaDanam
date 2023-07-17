@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contact Us</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+     background-color:skyblue;
+      background-size: cover;
+    }
+
+    header {
+      background-color: gold;
+      padding: 10px;
+    }
+
+    nav {
+      font-size: 24px;
+      letter-spacing: 0.5px;
+      font-weight: 400;
+      line-height: 24px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo img {
+      height: 120px;
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    nav ul li a {
+      color: purple;
+      text-decoration: none;
+      padding: 5px;
+    }
+
+    nav ul li a:hover {
+      background-color: purple;
+      color: gold;
+    }
+
+    nav ul li a.home {
+      text-decoration: none; /* Remove underline from Home link */
+    }
+
+    nav ul li a.contact {
+      text-decoration: underline; /* Underline Contact link */
+    }
+
+    .donate-btn {
+      background-color: purple;
+      color: gold;
+      border-radius: 3px;
+      padding: 8px 12px;
+      font-weight: bold;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: gold;
+    }
+
+    .container > * {
+      flex: 0 0 100%;
+      margin-bottom: 20px;
+    }
+
+    .container > .form-group {
+      margin-bottom: 0;
+    }
+
+    h2 {
+      text-align: center;
+      color: purple;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      color: purple;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .form-group textarea {
+      height: 100px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: purple;
+      color: gold;
+      text-decoration: none;
+      border-radius: 3px;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="https://drive.google.com/uc?id=1lZ9zDXgvocO5bigb_PLecezEUnMGMXnL" alt="Logo">
+      </div>
+      <ul>
+        <li><a href="/home/sagarjha/charitty/Home.html" class="home">Home</a></li>
+        <li><a href="/home/sagarjha/charitty/Aboutus.html">About</a></li>
+        <li><a href="/home/sagarjha/charitty/fundraiser.html">Raise Fund</a></li>
+        <li><a href="https://www.unicef.org/india/">United Nation</a></li>
+        <li><a href="/home/sagarjha/charitty/Contactus.html" class="contact">Contact</a></li>
+        <li><a href="https://white-architect-hkirr.pwskills.app:5500/?donorName=Sagar&message=VBNBVC&donationAmount=1" class="donate-btn">Donate</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <div class="form-group">
+      <h2>Contact Us</h2>
+      <form id="contact-form">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+    </div>
+
+    
+  </div>
+  
+  <footer>
+    <p>&copy; 2023 VidyaDanam All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById("contact-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      var name = document.getElementById("name").value;
+      var senderEmail = document.getElementById("email").value;
+      var message = document.getElementById("message").value;
+      var subject = "New Contact Form Submission";
+
+      // Modify the following lines with your own email address and email subject
+      var recipient = "sagarjha0999@gmail.com";
+      var emailSubject = "New Contact Form Submission";
+
+      var body = "Name: " + name + "\n\nEmail: " + senderEmail + "\n\nMessage: " + message;
+
+      var mailtoLink = "mailto:" + recipient + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+
+      window.location.href = mailtoLink;
+    });
+  </script>
+</body>
+</html>
